@@ -1,5 +1,6 @@
 import std/[macros, strutils, math, rationals]
 import ../private/utils
+import toconv
 
 {.push inline.}
 

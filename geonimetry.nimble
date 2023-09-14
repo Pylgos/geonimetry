@@ -10,3 +10,4 @@ srcDir        = "src"
 # Dependencies
 
 requires "nim >= 2.0"
+requires "https://github.com/Pylgos/toconv.git"
