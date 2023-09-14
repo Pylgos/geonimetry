@@ -15,9 +15,10 @@ func quat*[T](x, y, z, w: T): Quat[T] =
   Quat[T](x: x, y: y, z: z, w: w)
 
 func quat*[T](axis: Vector[3, T], angle: T): Quat[T] =
+  type Base = RemoveUnit[T]
   let d = axis.length()
-  let s = sin(angle * 0.5.to(RemoveUnit[T])) / d
-  quat(axis.x * s, axis.y * s, axis.z * s, cos(angle * 0.5.to(RemoveUnit[T])))
+  let s = sin(angle * 0.5'f32.to(Base)) / d
+  quat[T](axis.x * s, axis.y * s, axis.z * s, cos(angle * 0.5.to(Base)))
 
 func quatf*(x = 0'f32, y = 0'f32, z = 0'f32, w = 1'f32): Quatf =
   Quatf(x: x, y: y, z: z, w: w)
