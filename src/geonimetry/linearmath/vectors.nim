@@ -1,5 +1,6 @@
 import std/[macros, strformat, math]
 import ./matrices
+import ../private/utils
 
 {.push inline.}
 
@@ -44,10 +45,7 @@ macro `.`*[N: static int, Scalar](v: Vector[N, Scalar], swizzle: untyped{nkIdent
     let tmp = genSym(nskLet, "tmp")
     result.add newLetStmt(tmp, v)
     result.add nnkCall.newTree(
-      nnkBracketExpr.newTree(
-        bindSym"initVector",
-        newLit s.len,
-        nnkDotExpr.newTree(tmp, ident("Scalar"))),
+      bindSym"initVector",
       nnkBracket.newNimNode())
     for i, c in s:
       let idx = swizzleChars.find(c)
@@ -126,13 +124,13 @@ proc dot*[N: static int; ScalarA, ScalarB](a: Vector[N, ScalarA], b: Vector[N, S
 template `*`*[N: static int; ScalarA, ScalarB](a: Vector[N, ScalarA], b: Vector[N, ScalarB]): auto = dot(a, b)
 
 proc cross*[ScalarA, ScalarB](a: Vector[0, ScalarA], b: Vector[0, ScalarB]): auto =
-  result = Vector[0, productT(a, b)]()
+  result = Vector[0, ProductType[a, b]]()
 
 proc cross*[ScalarA, ScalarB](a: Vector[1, ScalarA], b: Vector[1, ScalarB]): auto =
-  result = initVector[1, productT(ScalarA, ScalarB)]([0])
+  result = initVector[1, ProductType[ScalarA, ScalarB]]([0])
 
 proc cross*[ScalarA, ScalarB](a: Vector[3, ScalarA], b: Vector[3, ScalarB]): auto =
-  result = initVector[3, productT(ScalarA, ScalarB)]([
+  result = initVector[3, ProductType[ScalarA, ScalarB]]([
     a[1]*b[2] - a[2]*b[1],
     a[2]*b[0] - a[0]*b[2],
     a[0]*b[1] - a[1]*b[0],

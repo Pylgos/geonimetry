@@ -31,4 +31,9 @@ suite "linearmath":
     check rotation(vector3(1.0, 0, 0), PI) == rotationX(PI)
     check rotation(vector3(0.0, 1, 0), PI) == rotationY(PI)
     check rotation(vector3(0.0, 0, 1), PI) == rotationZ(PI)
+  
+  test "swizzling":
+    check vector3f(1, 2, 3).zyx == vector3f(3, 2, 1)
 
+  test "cross product":
+    check vector3f(1, 0, 0).cross(vector3f(0, 1, 0)) == vector3f(0, 0, 1)

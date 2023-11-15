@@ -22,6 +22,9 @@ template cols*(m: Matrix): int =
 template size*(m: Matrix): int =
   m.data.len
 
+template elementType*(m: Matrix): typedesc =
+  typeof(m.data[0][0])
+
 template `[]`*[N, M: static int; T](m: Matrix[N, M, T], row, col: int): T =
   m.data[row][col]
 
